@@ -11,18 +11,18 @@
 <body>
 
 
-    <div class="flex items-center justify-center min-h-screen bg-[#2F2B40]">
+    <div class="flex items-center justify-center h-screen">
 
         {{-- Main Card Container --}}
-        <div class="relative flex space-y-8 bg-white shadow-2xl rounded-2xl md:flex-row md:space-y-0 ">
+        <div class="relative flex space-y-8 bg-white shadow-2xl rounded-2xl md:space-y-0 w-full h-full ">
 
             <div class="relative md:w-1/2">
                 <img src="https://images.pexels.com/photos/101808/pexels-photo-101808.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-                    alt="" class="object-cover w-full h-full rounded-l-2xl hidden md:block">
+                    alt="" class="object-cover w-full h-full hidden md:block">
 
                 {{-- Text Overlay with your brand's dark color --}}
                 <div
-                    class="absolute inset-0 bg-black/70 rounded-l-2xl hidden md:flex flex-col justify-between p-8 text-white">
+                    class="absolute inset-0 bg-black/70 hidden md:flex flex-col justify-between p-8 text-white">
                     <div class="flex items-center text-[#cba660]">
 
                         <svg class="w-8 h-8 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
@@ -53,7 +53,7 @@
                         </a>
                     @endif
                 </div>
-                <br><br>
+                <br><br><br>
                 <h1 class="text-2xl font-bold mt-8 text-brand-dark">Welcome Back to Chriwbi3!</h1>
                 <p class="text-sm text-gray-600">Sign in to your account</p>
 
