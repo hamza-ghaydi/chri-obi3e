@@ -91,25 +91,25 @@ class Property extends Model
         return $this->hasMany(Payment::class);
     }
 
-    // ! maybe no need
-    // public function getFeaturedImageUrlAttribute(): string
-    // {
-    //     // First, try to use the featured_image field
-    //     if ($this->featured_image) {
-    //         return Storage::url($this->featured_image);
-    //     }
+    
+    public function getFeaturedImageUrlAttribute(): string
+    {
+        // First, try to use the featured_image field
+        if ($this->featured_image) {
+            return Storage::url($this->featured_image);
+        }
 
-    //     // If no featured_image, try to use the first image from the images relationship
-    //     $firstImage = $this->images()->where('is_featured', true)->first()
-    //                ?? $this->images()->orderBy('sort_order')->first();
+        // If no featured_image, try to use the first image from the images relationship
+        $firstImage = $this->images()->where('is_featured', true)->first()
+                   ?? $this->images()->orderBy('sort_order')->first();
 
-    //     if ($firstImage) {
-    //         return Storage::url($firstImage->image_path);
-    //     }
+        if ($firstImage) {
+            return Storage::url($firstImage->image_path);
+        }
 
-    //     // Fallback to placeholder
-    //     return 'https://via.placeholder.com/400x300?text=No+Image';
-    // }
+        // Fallback to placeholder
+        return 'https://via.placeholder.com/400x300?text=No+Image';
+    }
 
     public function getFormattedPriceAttribute(): string
     {

@@ -1,29 +1,64 @@
-<x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Profile') }}
-        </h2>
-    </x-slot>
+@extends('layouts.dashboard')
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
-            <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
-                <div class="max-w-xl">
-                    @include('profile.partials.update-profile-information-form')
+@section('content')
+    <div class="py-6">
+        <div class=" mx-auto sm:px-6 lg:px-8 space-y-6">
+
+            <div
+                class="relative overflow-hidden bg-gradient-to-r from-[#2F2B40] to-[#CBA660] rounded-2xl p-8 text-white shadow-2xl">
+                <div class="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -translate-y-16 translate-x-16"></div>
+                <div class="absolute bottom-0 left-0 w-24 h-24 bg-white/5 rounded-full translate-y-12 -translate-x-12"></div>
+
+                <div class="relative z-10">
+                    <div class="flex items-center justify-between">
+                        <div class=" w-full sm:rounded-lg">
+                            <div class="max-w-xl">
+                                @include('profile.partials.update-profile-information-form')
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
-            <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
-                <div class="max-w-xl">
-                    @include('profile.partials.update-password-form')
+
+
+            <div
+                class="relative overflow-hidden bg-gradient-to-r from-[#2F2B40] to-[#CBA660] rounded-2xl p-8 text-white shadow-2xl">
+                <div class="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -translate-y-16 translate-x-16"></div>
+                <div class="absolute bottom-0 left-0 w-24 h-24 bg-white/5 rounded-full translate-y-12 -translate-x-12">
+                </div>
+
+                <div class="relative z-10">
+                    <div class="flex items-center justify-between">
+                        <div class=" w-full sm:rounded-lg">
+                            <div class="max-w-xl">
+                                @include('profile.partials.update-password-form')
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
-            <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
-                <div class="max-w-xl">
-                    @include('profile.partials.delete-user-form')
+
+            <div
+                class="relative overflow-hidden bg-gradient-to-r from-[#2F2B40] to-[#CBA660] rounded-2xl p-8 text-white shadow-2xl">
+                <div class="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -translate-y-16 translate-x-16"></div>
+                <div class="absolute bottom-0 left-0 w-24 h-24 bg-white/5 rounded-full translate-y-12 -translate-x-12">
+                </div>
+
+                <div class="relative z-10">
+                    <div class="flex items-center justify-between">
+                        <div class=" w-full sm:rounded-lg">
+                            <div class="max-w-xl">
+                                @include('profile.partials.delete-user-form')
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
+
+
+            
         </div>
     </div>
-</x-app-layout>
+@endsection

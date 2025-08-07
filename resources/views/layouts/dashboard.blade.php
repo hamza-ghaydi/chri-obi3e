@@ -28,11 +28,8 @@
             <!-- Logo -->
             <div class="p-6 border-b border-[#CBA660]/20">
                 <a href="{{ route('home') }}"
-                    class="flex items-center group hover:scale-105 transition-transform duration-200">
-                    <i
-                        class="fas fa-home text-[#CBA660] text-2xl mr-3 group-hover:rotate-12 transition-transform duration-300"></i>
-                    <span
-                        class="text-xl font-bold group-hover:text-[#CBA660] transition-colors duration-200">RealEstate</span>
+                    class="flex items-center justify-center">
+                    <img src="{{ asset('logo_chriwbi3.png') }}" alt="Chriwbi3 Logo" class="w-16">
                 </a>
             </div>
 
@@ -51,8 +48,8 @@
 
             <!-- Navigation -->
             <nav class="flex-1 p-6">
-                <ul class="space-y-2 flex flex-col h-[70vh] justify-between">
-                    <div class="space-y-4">
+                <ul class="flex flex-col justify-between">
+                    <div class="space-y-2 mb-16">
                         @if (auth()->user()->isAdmin())
                             <!-- Admin Navigation -->
                             <li>
@@ -187,12 +184,13 @@
                     </div>
 
                     <!-- Common Links -->
-                    <div class="space-y-4">
+                    <div class="space-y-2">
                         <li class="pt-4 border-t border-[#CBA660]/20 mt-4">
                             <a href="{{ route('home') }}"
                                 class="flex items-center px-4 py-3 text-gray-300 hover:bg-[#CBA660]/10 hover:text-[#CBA660] rounded-lg transition-all duration-200 font-medium group">
                                 <i class="fas fa-home mr-3 group-hover:scale-110 transition-transform duration-200"></i>
-                                <span class="group-hover:translate-x-1 transition-transform duration-200">Home Page</span>
+                                <span class="group-hover:translate-x-1 transition-transform duration-200">Home
+                                    Page</span>
                             </a>
                         </li>
                         <li>
@@ -230,16 +228,8 @@
                     </div>
 
                     <div class="flex items-center space-x-4">
-                        
-                
 
-                        <!-- Quick Actions -->
-                        @if (auth()->user()->isOwner())
-                            <a href="{{ route('owner.properties.create') }}"
-                                class="bg-[#CBA660] text-black font-semibold px-6 py-2 rounded-lg hover:bg-[#CBA660]/90 transition-all duration-200 shadow-md hover:shadow-lg transform hover:scale-105 text-sm flex items-center">
-                                <i class="fas fa-plus mr-2"></i>Add Property
-                            </a>
-                        @endif
+
                     </div>
                 </div>
             </header>

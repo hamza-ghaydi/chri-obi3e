@@ -1,228 +1,212 @@
 @extends('layouts.dashboard')
 
-@section('title', 'Create User - Admin Dashboard')
+@section('title', 'Create User')
 @section('page-title', 'Create New User')
 
-@section('breadcrumb')
-<a href="{{ route('admin.dashboard') }}" class="hover:text-brand-dark">Dashboard</a>
-<span class="mx-2">/</span>
-<a href="{{ route('admin.users.index') }}" class="hover:text-brand-dark">Users</a>
-<span class="mx-2">/</span>
-<span>Create User</span>
-@endsection
+
 
 @section('content')
-<div class="space-y-6">
-    <!-- User Form -->
-    <form action="{{ route('admin.users.store') }}" method="POST" enctype="multipart/form-data" class="space-y-6">
-        @csrf
-        
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            <!-- Main Form -->
-            <div class="lg:col-span-2 space-y-6">
-                <!-- Basic Information -->
-                <div class="dashboard-card">
-                    <div class="dashboard-card-header">
-                        <h3 class="dashboard-card-title">Basic Information</h3>
-                    </div>
-                    
-                    <div class="space-y-4">
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <div>
-                                <label class="form-label">Full Name *</label>
-                                <input type="text" name="name" value="{{ old('name') }}" placeholder="Enter full name" class="form-input" required>
-                                @error('name')
-                                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                                @enderror
-                            </div>
-                            
-                            <div>
-                                <label class="form-label">Email Address *</label>
-                                <input type="email" name="email" value="{{ old('email') }}" placeholder="Enter email address" class="form-input" required>
-                                @error('email')
-                                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                                @enderror
-                            </div>
-                        </div>
-                        
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <div>
-                                <label class="form-label">Phone Number</label>
-                                <input type="tel" name="phone" value="{{ old('phone') }}" placeholder="Enter phone number" class="form-input">
-                                @error('phone')
-                                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                                @enderror
-                            </div>
-                            
-                            <div>
-                                <label class="form-label">User Role *</label>
-                                <select name="role" class="form-input" required>
-                                    <option value="">Select Role</option>
-                                    <option value="admin" {{ old('role') == 'admin' ? 'selected' : '' }}>Admin</option>
-                                    <option value="owner" {{ old('role') == 'owner' ? 'selected' : '' }}>Property Owner</option>
-                                    <option value="client" {{ old('role') == 'client' ? 'selected' : '' }}>Client</option>
-                                </select>
-                                @error('role')
-                                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                                @enderror
-                            </div>
-                        </div>
-                    </div>
-                </div>
+    <div class="space-y-8">
+        <div
+            class="relative overflow-hidden bg-gradient-to-r from-[#2F2B40] to-[#CBA660] rounded-2xl p-8 text-white shadow-2xl">
+            <div class="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -translate-y-16 translate-x-16"></div>
+            <div class="absolute bottom-0 left-0 w-24 h-24 bg-white/5 rounded-full translate-y-12 -translate-x-12"></div>
 
-                <!-- Password Information -->
-                <div class="dashboard-card">
-                    <div class="dashboard-card-header">
-                        <h3 class="dashboard-card-title">Password Information</h3>
-                    </div>
-                    
-                    <div class="space-y-4">
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <div>
-                                <label class="form-label">Password *</label>
-                                <input type="password" name="password" placeholder="Enter password" class="form-input" required>
-                                @error('password')
-                                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                                @enderror
-                            </div>
-                            
-                            <div>
-                                <label class="form-label">Confirm Password *</label>
-                                <input type="password" name="password_confirmation" placeholder="Confirm password" class="form-input" required>
-                            </div>
-                        </div>
-                        
-                        <div class="bg-blue-50 p-4 rounded-lg">
-                            <h4 class="font-semibold text-blue-900 mb-2">Password Requirements:</h4>
-                            <ul class="text-sm text-blue-700 space-y-1">
-                                <li>• Minimum 8 characters</li>
-                                <li>• Mix of uppercase and lowercase letters recommended</li>
-                                <li>• Include numbers and special characters for better security</li>
-                            </ul>
-                        </div>
-                    </div>
+            <div class="relative z-10 flex items-center justify-between">
+                <div>
+                    <h2 class="text-3xl font-bold mb-2">Create New User</h2>
+                    <p class="text-white/80 text-lg">Add a new user to the ChriWBi3 platform with comprehensive details.</p>
                 </div>
-
-                <!-- Additional Information -->
-                <div class="dashboard-card">
-                    <div class="dashboard-card-header">
-                        <h3 class="dashboard-card-title">Additional Information</h3>
-                    </div>
-                    
-                    <div class="space-y-4">
-                        <div>
-                            <label class="form-label">Contact Information</label>
-                            <textarea name="contact_info" rows="3" placeholder="Additional contact details, address, etc." class="form-input">{{ old('contact_info') }}</textarea>
-                            @error('contact_info')
-                                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                            @enderror
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Sidebar -->
-            <div class="space-y-6">
-                <!-- Profile Picture -->
-                <div class="dashboard-card">
-                    <div class="dashboard-card-header">
-                        <h3 class="dashboard-card-title">Profile Picture</h3>
-                    </div>
-                    
-                    <div class="space-y-4">
-                        <div class="text-center">
-                            <div id="image-preview" class="w-32 h-32 mx-auto bg-gray-200 rounded-full flex items-center justify-center mb-4">
-                                <i class="fas fa-user text-4xl text-gray-400"></i>
-                            </div>
-                            
-                            <input type="file" name="profile_picture" accept="image/*" class="hidden" id="profile-picture">
-                            <label for="profile-picture" class="btn-outline cursor-pointer">
-                                <i class="fas fa-upload mr-2"></i>Upload Photo
-                            </label>
-                        </div>
-                        
-                        <p class="text-xs text-gray-500 text-center">
-                            Recommended: Square image, max 2MB
-                        </p>
-                        
-                        @error('profile_picture')
-                            <p class="text-red-500 text-sm text-center">{{ $message }}</p>
-                        @enderror
-                    </div>
-                </div>
-
-                <!-- User Settings -->
-                <div class="dashboard-card">
-                    <div class="dashboard-card-header">
-                        <h3 class="dashboard-card-title">User Settings</h3>
-                    </div>
-                    
-                    <div class="space-y-4">
-                        <div>
-                            <label class="flex items-center">
-                                <input type="checkbox" name="is_active" value="1" {{ old('is_active', true) ? 'checked' : '' }} class="mr-2">
-                                <span class="text-sm">Account is active</span>
-                            </label>
-                            <p class="text-xs text-gray-500 mt-1">Inactive users cannot log in to the platform</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Action Buttons -->
-                <div class="space-y-3">
-                    <button type="submit" class="btn-primary w-full">
-                        <i class="fas fa-save mr-2"></i>Create User
-                    </button>
-                    
-                    <a href="{{ route('admin.users.index') }}" class="btn-outline w-full text-center">
-                        <i class="fas fa-arrow-left mr-2"></i>Back to Users
-                    </a>
+                <div class="hidden md:block">
+                    <i class="fas fa-user-plus text-6xl text-[#CBA660]/30"></i>
                 </div>
             </div>
         </div>
-    </form>
-</div>
 
-@push('scripts')
-<script>
-// Profile picture preview
-document.getElementById('profile-picture').addEventListener('change', function(e) {
-    const file = e.target.files[0];
-    const preview = document.getElementById('image-preview');
-    
-    if (file) {
-        const reader = new FileReader();
-        reader.onload = function(e) {
-            preview.innerHTML = `<img src="${e.target.result}" class="w-32 h-32 rounded-full object-cover">`;
-        };
-        reader.readAsDataURL(file);
-    } else {
-        preview.innerHTML = '<i class="fas fa-user text-4xl text-gray-400"></i>';
-    }
-});
+        <!-- User Form -->
+        <form action="{{ route('admin.users.store') }}" method="POST" enctype="multipart/form-data" class="space-y-8">
+            @csrf
 
-// Role-based help text
-document.querySelector('select[name="role"]').addEventListener('change', function() {
-    const roleHelp = document.getElementById('role-help');
-    const role = this.value;
-    
-    let helpText = '';
-    switch(role) {
-        case 'admin':
-            helpText = 'Admins have full access to manage the platform, users, and properties.';
-            break;
-        case 'owner':
-            helpText = 'Property owners can list and manage their properties, handle appointments.';
-            break;
-        case 'client':
-            helpText = 'Clients can browse properties, save favorites, and book appointments.';
-            break;
-    }
-    
-    if (roleHelp) {
-        roleHelp.textContent = helpText;
-    }
-});
-</script>
-@endpush
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <!-- Main Form -->
+                <div class="lg:col-span-2 space-y-8">
+                    <!-- Basic Information -->
+                    <div class="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden">
+                        <div class="bg-gradient-to-r from-[#2F2B40]/5 to-[#CBA660]/5 px-8 py-6 border-b border-gray-100">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <h3 class="text-2xl font-bold text-[#2F2B40] mb-2">Basic Information</h3>
+                                    <p class="text-gray-600">Essential user details and contact information</p>
+                                </div>
+                                <i class="fas fa-id-card text-3xl text-[#CBA660]"></i>
+                            </div>
+                        </div>
+
+                        <div class="p-8 space-y-6">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div class="space-y-2">
+                                    <label class="block text-sm font-semibold text-[#2F2B40] mb-2">Full Name *</label>
+                                    <input type="text" name="name" value="{{ old('name') }}"
+                                        placeholder="Enter full name"
+                                        class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#CBA660]/20 focus:border-[#CBA660] transition-all duration-200 bg-gray-50/50"
+                                        required>
+                                    @error('name')
+                                        <p class="text-red-500 text-sm mt-1 flex items-center"><i
+                                                class="fas fa-exclamation-circle mr-1"></i>{{ $message }}</p>
+                                    @enderror
+                                </div>
+
+                                <div class="space-y-2">
+                                    <label class="block text-sm font-semibold text-[#2F2B40] mb-2">Email Address *</label>
+                                    <input type="email" name="email" value="{{ old('email') }}"
+                                        placeholder="Enter email address"
+                                        class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#CBA660]/20 focus:border-[#CBA660] transition-all duration-200 bg-gray-50/50"
+                                        required>
+                                    @error('email')
+                                        <p class="text-red-500 text-sm mt-1 flex items-center"><i
+                                                class="fas fa-exclamation-circle mr-1"></i>{{ $message }}</p>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div class="space-y-2">
+                                    <label class="block text-sm font-semibold text-[#2F2B40] mb-2">Phone Number</label>
+                                    <input type="tel" name="phone" value="{{ old('phone') }}"
+                                        placeholder="Enter phone number"
+                                        class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#CBA660]/20 focus:border-[#CBA660] transition-all duration-200 bg-gray-50/50">
+                                    @error('phone')
+                                        <p class="text-red-500 text-sm mt-1 flex items-center"><i
+                                                class="fas fa-exclamation-circle mr-1"></i>{{ $message }}</p>
+                                    @enderror
+                                </div>
+
+                                <div class="space-y-2">
+                                    <label class="block text-sm font-semibold text-[#2F2B40] mb-2">User Role *</label>
+                                    <select name="role"
+                                        class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#CBA660]/20 focus:border-[#CBA660] transition-all duration-200 bg-gray-50/50"
+                                        required>
+                                        <option value="">Select Role</option>
+                                        <option value="admin" {{ old('role') == 'admin' ? 'selected' : '' }}>Admin</option>
+                                        <option value="owner" {{ old('role') == 'owner' ? 'selected' : '' }}>Property
+                                            Owner</option>
+                                        <option value="client" {{ old('role') == 'client' ? 'selected' : '' }}>Client
+                                        </option>
+                                    </select>
+                                    @error('role')
+                                        <p class="text-red-500 text-sm mt-1 flex items-center"><i
+                                                class="fas fa-exclamation-circle mr-1"></i>{{ $message }}</p>
+                                    @enderror
+                                    <p id="role-help" class="text-sm text-gray-500 mt-1"></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Password Information -->
+                    <div class="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden">
+                        <div class="bg-gradient-to-r from-[#2F2B40]/5 to-[#CBA660]/5 px-8 py-6 border-b border-gray-100">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <h3 class="text-2xl font-bold text-[#2F2B40] mb-2">Password Information</h3>
+                                    <p class="text-gray-600">Set secure login credentials for the user</p>
+                                </div>
+                                <i class="fas fa-lock text-3xl text-[#CBA660]"></i>
+                            </div>
+                        </div>
+
+                        <div class="p-8 space-y-6">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div class="space-y-2">
+                                    <label class="block text-sm font-semibold text-[#2F2B40] mb-2">Password *</label>
+                                    <input type="password" name="password" placeholder="Enter password"
+                                        class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#CBA660]/20 focus:border-[#CBA660] transition-all duration-200 bg-gray-50/50"
+                                        required>
+                                    @error('password')
+                                        <p class="text-red-500 text-sm mt-1 flex items-center"><i
+                                                class="fas fa-exclamation-circle mr-1"></i>{{ $message }}</p>
+                                    @enderror
+                                </div>
+
+                                <div class="space-y-2">
+                                    <label class="block text-sm font-semibold text-[#2F2B40] mb-2">Confirm Password
+                                        *</label>
+                                    <input type="password" name="password_confirmation" placeholder="Confirm password"
+                                        class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#CBA660]/20 focus:border-[#CBA660] transition-all duration-200 bg-gray-50/50"
+                                        required>
+                                </div>
+                            </div>
+
+                            
+                        </div>
+                    </div>
+
+                    <!-- Additional Information -->
+                    <div class="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden">
+                        <div class="bg-gradient-to-r from-[#2F2B40]/5 to-[#CBA660]/5 px-8 py-6 border-b border-gray-100">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <h3 class="text-2xl font-bold text-[#2F2B40] mb-2">Additional Information</h3>
+                                    <p class="text-gray-600">Optional contact details and notes</p>
+                                </div>
+                                <i class="fas fa-info-circle text-3xl text-[#CBA660]"></i>
+                            </div>
+                        </div>
+
+                        <div class="p-8">
+                            <div class="space-y-2">
+                                <label class="block text-sm font-semibold text-[#2F2B40] mb-2">Contact Information</label>
+                                <textarea name="contact_info" rows="4" placeholder="Additional contact details, address, etc."
+                                    class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#CBA660]/20 focus:border-[#CBA660] transition-all duration-200 bg-gray-50/50 resize-none">{{ old('contact_info') }}</textarea>
+                                @error('contact_info')
+                                    <p class="text-red-500 text-sm mt-1 flex items-center"><i
+                                            class="fas fa-exclamation-circle mr-1"></i>{{ $message }}</p>
+                                @enderror
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sidebar -->
+                <div class="space-y-8">
+
+                    <!-- User Settings -->
+                    <div class="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden">
+                        <div class="bg-gradient-to-r from-[#2F2B40]/5 to-[#CBA660]/5 px-6 py-4 border-b border-gray-100">
+                            <h3 class="text-lg font-bold text-[#2F2B40] flex items-center">
+                                <i class="fas fa-cog mr-2 text-[#CBA660]"></i>User Settings
+                            </h3>
+                        </div>
+
+                        <div class="p-6">
+                            <div class="bg-gray-50 p-4 rounded-xl">
+                                <label class="flex items-center cursor-pointer">
+                                    <input type="checkbox" name="is_active" value="1"
+                                        {{ old('is_active', true) ? 'checked' : '' }}
+                                        class="w-5 h-5 text-[#CBA660] border-gray-300 rounded focus:ring-[#CBA660] focus:ring-2">
+                                    <span class="ml-3 text-sm font-medium text-[#2F2B40]">Account is active</span>
+                                </label>
+                                <p class="text-xs text-gray-500 mt-2 ml-8">
+                                    <i class="fas fa-info-circle mr-1"></i>Inactive users cannot log in to the platform
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="space-y-4">
+                        <button type="submit"
+                            class="w-full bg-gradient-to-r from-[#CBA660] to-[#CBA660]/80 text-white px-6 py-4 rounded-xl font-semibold shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:scale-105">
+                            <i class="fas fa-save mr-2"></i>Create User
+                        </button>
+
+                        <a href="{{ route('admin.users.index') }}"
+                            class="block w-full text-center px-6 py-4 border border-[#CBA660] text-[#CBA660] rounded-xl hover:bg-[#CBA660] hover:text-white transition-all duration-200 font-medium shadow-sm hover:shadow-md">
+                            <i class="fas fa-arrow-left mr-2"></i>Back to Users
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
 @endsection

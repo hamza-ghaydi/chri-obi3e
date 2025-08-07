@@ -221,161 +221,166 @@
 
             </div>
             {{-- card property --}}
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                @foreach ($featuredProperties as $property)
-                    <div
-                        class="property-card bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
-                        {{-- Property Image with Navigation  --}}
-                        <div class="relative h-64">
-                            <img src="{{ $property->featured_image_url }}" alt="{{ $property->title }}"
-                                class="w-full h-full object-cover">
-
-
-                            {{-- Status Badge --}}
-                            <div class="absolute top-3 left-3">
-                                <span
-                                    class="bg-yellow-500 text-white px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wide">
-                                    {{ $property->isForSale() ? 'For Sale' : 'For Rent' }}
-                                </span>
-                            </div>
-
-
-
-                            {{-- Favorite Button --}}
-                            @auth
-                                @if (auth()->user()->isClient())
-                                    @if (isset($isFavorited) && $isFavorited)
-                                        <form action="{{ route('client.favorites.destroy', $property) }}" method="POST"
-                                            class="absolute bottom-3 right-3">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit"
-                                                class="bg-white bg-opacity-80 hover:bg-opacity-100 rounded-full p-2 transition-all duration-200">
-                                                <i class="fas fa-heart text-red-500"></i>
-                                            </button>
-                                        </form>
-                                    @else
-                                        <form action="{{ route('client.favorites.store', $property) }}" method="POST"
-                                            class="absolute bottom-3 right-3">
-                                            @csrf
-                                            <button type="submit"
-                                                class="bg-white bg-opacity-80 hover:bg-opacity-100 rounded-full p-2 transition-all duration-200">
-                                                <i class="fas fa-heart text-[#CBA660]"></i>
-                                            </button>
-                                        </form>
-                                    @endif
-                                @endif
-                            @endauth
-
-                            {{-- Location Badge --}}
-                            <div class="absolute bottom-3 left-3">
-                                <div class="bg-black bg-opacity-60 text-white px-2 py-1 rounded text-xs flex items-center">
-                                    <i class="fas fa-map-marker-alt mr-1"></i>
-                                    <span>{{ $property->city->name }}</span>
-                                </div>
-                            </div>
-
-
-                        </div>
-
-                        {{-- Property Details --}}
-                        <div class="p-4">
-
-                            <h3 class="text-lg font-bold text-gray-900 mb-2 line-clamp-2 leading-tight">
-                                <a href="{{ route('properties.show', $property) }}"
-                                    class="hover:text-[#2F2B40] transition-colors duration-200">
-                                    {{ $property->title }}
-                                </a>
-                            </h3>
-
-                            {{-- Price --}}
-                            <div class="text-xl font-bold text-[#CBA660] mb-3">
-                                {{ $property->formatted_price }}
-                            </div>
-
-                            {{-- Description Preview --}}
-                            @if ($property->description)
-                                <p class="text-sm text-gray-600 mb-3 line-clamp-2">
-                                    {{ Str::limit($property->description, 100) }}
-                                </p>
-                            @endif
-
-                            {{-- Property Features --}}
-                            <div class="flex items-center justify-between text-sm text-gray-500 mb-4 border-t pt-3">
-                                @if ($property->bedrooms)
-                                    <div class="flex items-center">
-                                        <i class="fas fa-bed mr-1 text-[#CBA660]"></i>
-                                        <span>{{ $property->bedrooms }}</span>
+            @if ($properties->count() > 0)
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    @foreach ($properties as $property)
+                        <div
+                            class="property-card bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
+                            {{-- Property Image with Navigation  --}}
+                            <div class="relative h-64">
+                                @if ($property->images->count() > 0)
+                                    <img src="{{ $property->featured_image_url }}"
+                                        alt="{{ $property->title }}" class="w-full h-full object-cover">
+                                @else
+                                    <div class="w-full h-full bg-gray-300 flex items-center justify-center">
+                                        <i class="fas fa-home text-3xl text-gray-500"></i>
                                     </div>
                                 @endif
 
-                                @if ($property->bathrooms)
-                                    <div class="flex items-center">
-                                        <i class="fas fa-bath mr-1 text-[#CBA660]"></i>
-                                        <span>{{ $property->bathrooms }}</span>
-                                    </div>
-                                @endif
-
-                                @if ($property->area)
-                                    <div class="flex items-center">
-                                        <i class="fas fa-expand-arrows-alt mr-1 text-[#CBA660]"></i>
-                                        <span>{{ number_format($property->area) }} m²</span>
-                                    </div>
-                                @endif
-
-                                <div class="flex items-center">
-                                    <i class="fas fa-tag mr-1 text-[#CBA660]"></i>
-                                    <span>{{ $property->category->name }}</span>
-                                </div>
-                            </div>
-
-                            {{-- Agent/Owner Info --}}
-                            <div class="flex items-center justify-between border-t pt-3">
-                                <div class="flex items-center">
-                                    @if ($property->owner && $property->owner->avatar)
-                                        <img src="{{ $property->owner->avatar }}" alt="{{ $property->owner->name }}"
-                                            class="w-8 h-8 rounded-full mr-2 object-cover">
-                                    @else
-                                        <div
-                                            class="w-8 h-8 rounded-full bg-gray-300 mr-2 flex items-center justify-center">
-                                            <i class="fas fa-user text-gray-500 text-xs"></i>
-                                        </div>
-                                    @endif
-                                    <span class="text-sm font-medium text-gray-700">
-                                        {{ $property->owner->name ?? 'Agent Name' }}
+                                {{-- Status Badge --}}
+                                <div class="absolute top-3 left-3">
+                                    <span
+                                        class="bg-yellow-500 text-white px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wide">
+                                        {{ $property->status == 'sale' ? 'For Sale' : 'For Rent' }}
                                     </span>
                                 </div>
 
-                                {{-- Buttons --}}
-                                <div class="flex gap-2">
-
-                                    @auth
-                                        @if (auth()->user()->isClient())
-                                            <button onclick="contactOwner({{ $property->id }})"
-                                                class="p-2 text-[#CBA660] hover:text-blue-600 transition-colors duration-200">
-                                                <i class="fas fa-plus"></i>
-                                            </button>
+                                {{-- Favorite Button --}}
+                                @auth
+                                    @if (auth()->user()->isClient())
+                                        @php $isFavorited = auth()->user()->favorites->contains($property->id); @endphp
+                                        @if ($isFavorited)
+                                            <form action="{{ route('client.favorites.destroy', $property) }}" method="POST"
+                                                class="absolute bottom-3 right-3">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit"
+                                                    class="bg-white bg-opacity-80 hover:bg-opacity-100 rounded-full p-2 transition-all duration-200">
+                                                    <i class="fas fa-heart text-red-500"></i>
+                                                </button>
+                                            </form>
+                                        @else
+                                            <form action="{{ route('client.favorites.store', $property) }}" method="POST"
+                                                class="absolute bottom-3 right-3">
+                                                @csrf
+                                                <button type="submit"
+                                                    class="bg-white bg-opacity-80 hover:bg-opacity-100 rounded-full p-2 transition-all duration-200">
+                                                    <i class="fas fa-heart text-[#CBA660]"></i>
+                                                </button>
+                                            </form>
                                         @endif
-                                    @else
-                                        <a href="{{ route('login') }}"
-                                            class="p-2 text-[#CBA660] hover:text-blue-600 transition-colors duration-200">
-                                            <i class="fas fa-plus"></i>
-                                        </a>
-                                    @endauth
+                                    @endif
+                                @endauth
+
+                                {{-- Location Badge --}}
+                                <div class="absolute bottom-3 left-3">
+                                    <div
+                                        class="bg-black bg-opacity-60 text-white px-2 py-1 rounded text-xs flex items-center">
+                                        <i class="fas fa-map-marker-alt mr-1"></i>
+                                        <span>{{ $property->city->name ?? '' }}</span>
+                                    </div>
                                 </div>
                             </div>
 
-                            {{-- Details Button --}}
-                            <div class="mt-3">
-                                <a href="{{ route('properties.show', $property) }}"
-                                    class="w-full bg-[#2F2B40] hover:bg-[#CBA660] text-white text-center py-2 px-4 rounded-md transition-colors duration-200 text-sm font-medium inline-block">
-                                    détails
-                                </a>
+                            {{-- Property Details --}}
+                            <div class="p-4">
+                                <h3 class="text-lg font-bold text-gray-900 mb-2 line-clamp-2 leading-tight">
+                                    <a href="{{ route('properties.show', $property) }}"
+                                        class="hover:text-[#2F2B40] transition-colors duration-200">
+                                        {{ $property->title }}
+                                    </a>
+                                </h3>
+
+                                {{-- Price --}}
+                                <div class="text-xl font-bold text-[#CBA660] mb-3">
+                                    {{ number_format($property->price) }} MAD
+                                </div>
+
+                                {{-- Description Preview --}}
+                                @if ($property->description)
+                                    <p class="text-sm text-gray-600 mb-3 line-clamp-2">
+                                        {{ Str::limit($property->description, 100) }}
+                                    </p>
+                                @endif
+
+                                {{-- Property Features --}}
+                                <div class="flex items-center justify-between text-sm text-gray-500 mb-4 border-t pt-3">
+                                    @if ($property->bedrooms)
+                                        <div class="flex items-center">
+                                            <i class="fas fa-bed mr-1 text-[#CBA660]"></i>
+                                            <span>{{ $property->bedrooms }}</span>
+                                        </div>
+                                    @endif
+
+                                    @if ($property->bathrooms)
+                                        <div class="flex items-center">
+                                            <i class="fas fa-bath mr-1 text-[#CBA660]"></i>
+                                            <span>{{ $property->bathrooms }}</span>
+                                        </div>
+                                    @endif
+
+                                    @if ($property->area)
+                                        <div class="flex items-center">
+                                            <i class="fas fa-expand-arrows-alt mr-1 text-[#CBA660]"></i>
+                                            <span>{{ number_format($property->area) }} m²</span>
+                                        </div>
+                                    @endif
+
+                                    <div class="flex items-center">
+                                        <i class="fas fa-tag mr-1 text-[#CBA660]"></i>
+                                        <span>{{ $property->category->name }}</span>
+                                    </div>
+                                </div>
+
+                                {{-- Agent Info --}}
+                                <div class="flex items-center justify-between border-t pt-3">
+                                    <div class="flex items-center">
+                                        @if ($property->owner && $property->owner->avatar)
+                                            <img src="{{ $property->owner->avatar }}" alt="{{ $property->owner->name }}"
+                                                class="w-8 h-8 rounded-full mr-2 object-cover">
+                                        @else
+                                            <div
+                                                class="w-8 h-8 rounded-full bg-gray-300 mr-2 flex items-center justify-center">
+                                                <i class="fas fa-user text-gray-500 text-xs"></i>
+                                            </div>
+                                        @endif
+                                        <span class="text-sm font-medium text-gray-700">
+                                            {{ $property->owner->name ?? 'Agent Name' }}
+                                        </span>
+                                    </div>
+
+                                    
+                                </div>
+
+                                {{-- Details Button --}}
+                                <div class="mt-3">
+                                    <a href="{{ route('properties.show', $property) }}"
+                                        class="w-full bg-[#2F2B40] hover:bg-[#CBA660] text-white text-center py-2 px-4 rounded-md transition-colors duration-200 text-sm font-medium inline-block">
+                                        détails
+                                    </a>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                @endforeach
-            </div>
+                    @endforeach
+                </div>
+
+                <!-- Pagination -->
+                <div class="mt-12 flex justify-center">
+                    {{ $properties->links() }}
+                </div>
+            @else
+                <div class="text-center py-16">
+                    <i class="fas fa-home text-6xl text-gray-400 mb-6"></i>
+                    <h3 class="text-2xl font-semibold text-gray-600 mb-4">No Properties Found</h3>
+                    <p class="text-gray-500 mb-6">Try adjusting your search criteria or browse all properties.</p>
+                    <a href="{{ route('home') }}"
+                        class="inline-block px-8 py-3 text-white font-semibold rounded-md transition-all duration-300 hover:opacity-90"
+                        style="background-color: #CBA660;">
+                        View All Properties
+                    </a>
+                </div>
+            @endif
+
         </div>
     </section>
 
@@ -422,7 +427,7 @@
             {{-- Call to Action Button --}}
             <div class="space-y-4">
                 @auth
-                    @if (auth()->user()->isOwner() )
+                    @if (auth()->user()->isOwner())
                         <a href="{{ route('owner.properties.create') }}"
                             class="inline-flex items-center bg-[#CBA660] text-white font-semibold py-4 px-8 rounded-full text-lg transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl">
                             Start Listing Now
@@ -448,5 +453,4 @@
             </div>
         </div>
     </section>
-
 @endsection

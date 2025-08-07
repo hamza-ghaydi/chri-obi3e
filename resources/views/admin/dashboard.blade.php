@@ -173,20 +173,6 @@
                 Manage all aspects of the ChriWBi3 real estate platform from this central dashboard. 
                 Monitor performance, oversee users, and ensure smooth operations.
             </p>
-            <div class="flex justify-center space-x-4">
-                <div class="text-center">
-                    <div class="text-2xl font-bold">99.9%</div>
-                    <div class="text-sm text-white/70">Uptime</div>
-                </div>
-                <div class="text-center">
-                    <div class="text-2xl font-bold">24/7</div>
-                    <div class="text-sm text-white/70">Support</div>
-                </div>
-                <div class="text-center">
-                    <div class="text-2xl font-bold">Secure</div>
-                    <div class="text-sm text-white/70">Platform</div>
-                </div>
-            </div>
         </div>
     </div>
 </div>

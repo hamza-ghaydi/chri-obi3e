@@ -25,10 +25,8 @@
                 <div class="flex items-center">
                     <!-- Logo -->
                     <a href="{{ route('home') }}" class="flex items-center group">
-                        <i
-                            class="fas fa-home text-[#CBA660] text-2xl mr-2 group-hover:scale-110 transition-transform duration-200"></i>
-                        <span
-                            class="text-white text-xl font-bold group-hover:text-[#CBA660] transition-colors duration-200">RealEstate</span>
+                        <img src="{{ asset('logo_chriwbi3.png') }}" alt="Chriwbi3 Logo" class="w-20">
+
                     </a>
                 </div>
 
@@ -203,9 +201,7 @@
                             <i class="fas fa-map-marker-alt text-[#CBA660] mt-1 mr-3"></i>
                             <div class="">
                                 <p class="text-gray-300 text-sm ">
-                                    123 Hassan II Boulevard
-                                    Casablanca, Morocco
-                                    20000
+                                    Adress
                                 </p>
                             </div>
                         </div>
@@ -214,7 +210,7 @@
                             <i class="fas fa-phone text-[#CBA660] mr-3"></i>
                             <a href="tel:+212522123456"
                                 class="text-gray-300 hover:text-white transition-colors duration-200 text-sm">
-                                +212 522 123 456
+                                +212 000 000 000
                             </a>
                         </div>
 
