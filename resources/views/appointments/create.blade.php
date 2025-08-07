@@ -4,220 +4,220 @@
 
 @section('content')
 <div class="container mx-auto px-4 py-8">
-    <div class="max-w-6xl mx-auto">
-        <!-- Header -->
+    <div class="max-w-7xl mx-auto">
+        
         <div class="mb-8">
-            <nav class="text-sm text-gray-600 mb-4">
-                <a href="{{ route('home') }}" class="hover:text-brand-dark">Home</a>
-                <span class="mx-2">/</span>
-                <a href="{{ route('properties.show', $property) }}" class="hover:text-brand-dark">{{ $property->title }}</a>
-                <span class="mx-2">/</span>
-                <span>Schedule Visit</span>
-            </nav>
-            
-            <h1 class="text-3xl font-bold text-brand-dark mb-2">Schedule Property Visit</h1>
-            <p class="text-gray-600">Choose your preferred date and time to visit this property</p>
+           
+            <div class="relative overflow-hidden bg-gradient-to-r from-[#2F2B40] to-[#CBA660] rounded-2xl p-8 text-white shadow-2xl">
+                <div class="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -translate-y-16 translate-x-16"></div>
+                <div class="absolute bottom-0 left-0 w-24 h-24 bg-white/5 rounded-full translate-y-12 -translate-x-12"></div>
+                
+                <div class="relative z-10 flex items-center justify-between">
+                    <div>
+                        <h1 class="text-4xl font-bold mb-3">Schedule Property Visit</h1>
+                        <p class="text-white/80 text-lg">Choose your preferred date and time to visit this amazing property</p>
+                    </div>
+                    <div class="hidden md:block">
+                        <i class="fas fa-calendar-check text-6xl text-[#CBA660]/30"></i>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <!-- Success Message -->
         @if(session('success'))
-            <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-6">
+            <div class="bg-gradient-to-r from-green-50 to-green-100 border border-green-200 rounded-2xl p-6 mb-8 shadow-lg">
                 <div class="flex items-center">
-                    <i class="fas fa-check-circle mr-2"></i>
-                    {{ session('success') }}
+                    <div class="w-12 h-12 bg-green-500 rounded-full flex items-center justify-center mr-4">
+                        <i class="fas fa-check-circle text-white text-xl"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-semibold text-green-800 text-lg">Success!</h3>
+                        <p class="text-green-700">{{ session('success') }}</p>
+                    </div>
                 </div>
             </div>
         @endif
 
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            <!-- Calendar and Form -->
+            
             <div class="lg:col-span-2">
-                <div class="bg-white rounded-lg shadow-lg p-6">
-                    <h2 class="text-xl font-semibold text-brand-dark mb-6">Select Date & Time</h2>
-                    
-                    <!-- Calendar -->
-                    <div id="calendar" class="mb-6"></div>
-                    
-                    <!-- Appointment Form -->
-                    <form id="appointment-form" action="{{ route('appointments.store', $property) }}" method="POST" class="space-y-6" style="display: none;">
-                        @csrf
-                        
-                        <input type="hidden" id="appointment_date" name="appointment_date" value="">
-                        
-                        <div class="bg-blue-50 p-4 rounded-lg">
-                            <div class="flex items-center">
-                                <i class="fas fa-calendar-check text-blue-500 mr-3"></i>
-                                <div>
-                                    <p class="font-semibold text-blue-800">Selected Date & Time:</p>
-                                    <p id="selected-datetime" class="text-blue-700"></p>
-                                </div>
+                <div class="relative bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden">
+                    <div class="bg-gradient-to-r from-[#2F2B40]/5 to-[#CBA660]/5 px-8 py-6 border-b border-gray-100">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <h2 class="text-2xl font-bold text-[#2F2B40] mb-2">Select Date & Time</h2>
+                                <p class="text-gray-600">Choose when you'd like to visit the property</p>
                             </div>
+                            <i class="fas fa-calendar text-2xl text-[#CBA660]"></i>
                         </div>
+                    </div>
+                    
+                    <div class="p-8">
+                        {{-- Calendar  --}}
+                        <div id="calendar" class="mb-8 bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden"></div>
                         
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Additional Notes (Optional)</label>
-                            <textarea name="client_message" rows="4"
-                                      class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-beige focus:border-transparent"
-                                      placeholder="Any specific requirements or questions about the visit...">{{ old('client_message') }}</textarea>
-                            @error('client_message')
-                                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                            @enderror
-                        </div>
                         
-                        <div class="bg-yellow-50 p-4 rounded-lg">
-                            <div class="flex items-start">
-                                <i class="fas fa-info-circle text-yellow-500 mt-1 mr-3"></i>
-                                <div class="text-sm text-yellow-700">
-                                    <p class="font-semibold mb-1">Important Notes:</p>
-                                    <ul class="list-disc list-inside space-y-1">
-                                        <li>Your appointment request will be sent to the property owner</li>
-                                        <li>The owner will confirm or suggest alternative times</li>
-                                        <li>You'll receive an email notification with the status</li>
-                                        <li>Please arrive on time for your scheduled visit</li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="flex space-x-4">
-                            <button type="submit" class="flex-1 bg-brand-dark text-white py-3 px-6 rounded-lg hover:bg-opacity-90 transition duration-300 font-semibold">
-                                <i class="fas fa-calendar-plus mr-2"></i>Request Appointment
-                            </button>
+                        <form id="appointment-form" action="{{ route('appointments.store', $property) }}" method="POST" class="space-y-6" style="display: none;">
+                            @csrf
                             
-                            <button type="button" onclick="resetSelection()" class="px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition duration-300 font-semibold">
-                                <i class="fas fa-times mr-2"></i>Cancel
-                            </button>
+                            <input type="hidden" id="appointment_date" name="appointment_date" value="">
+                            
+                            <div class="bg-gradient-to-r from-[#2F2B40]/5 to-[#CBA660]/5 p-6 rounded-2xl border ">
+                                <div class="flex items-center">
+                                    
+                                    <div>
+                                        <p class="font-bold text-[#2F2B40] text-lg">Selected Date & Time:</p>
+                                        <p id="selected-datetime" class="text-[#2F2B40]/50 font-medium"></p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-bold text-[#2F2B40] mb-3">Additional Notes (Optional)</label>
+                                <textarea name="client_message" rows="4"
+                                          class="w-full px-4 py-4 border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#CBA660] focus:border-transparent transition-all duration-300 resize-none"
+                                          placeholder="Any specific requirements or questions about the visit...">{{ old('client_message') }}</textarea>
+                                @error('client_message')
+                                    <p class="text-red-500 text-sm mt-2 flex items-center">
+                                        <i class="fas fa-exclamation-circle mr-2"></i>{{ $message }}
+                                    </p>
+                                @enderror
+                            </div>
+                            
+                            
+                            
+                            <div class="flex space-x-4">
+                                <button type="submit" class="flex-1 bg-gradient-to-r from-[#CBA660] to-[#CBA660]/80 text-white py-4 px-6 rounded-xl hover:shadow-lg transition-all duration-300 font-bold text-lg transform hover:scale-105">
+                                    <i class="fas fa-calendar-plus mr-3"></i>Request Appointment
+                                </button>
+                                
+                                <button type="button" onclick="resetSelection()" class="px-8 py-4 bg-white border-2 border-gray-300 text-gray-700 rounded-xl hover:bg-gray-50 transition-all duration-300 font-bold transform hover:scale-105">
+                                    <i class="fas fa-times mr-2"></i>Cancel
+                                </button>
+                            </div>
+                        </form>
+                        
+                        
+                        <div id="calendar-instructions" class="text-center py-12">
+                            
+                            <h3 class="text-2xl font-bold text-[#2F2B40] mb-3">Click on a date to schedule your visit</h3>
+                            <p class="text-gray-600 text-lg">Available time slots will be shown for your selected date</p>
                         </div>
-                    </form>
-                    
-                    <!-- Instructions -->
-                    <div id="calendar-instructions" class="text-center text-gray-600 mt-6">
-                        <i class="fas fa-hand-pointer text-4xl mb-3 block text-gray-400"></i>
-                        <p class="text-lg font-semibold mb-2">Click on a date to schedule your visit</p>
-                        <p class="text-sm">Available time slots will be shown for your selected date</p>
                     </div>
                 </div>
             </div>
 
-            <!-- Property Summary & Info -->
-            <div class="space-y-6">
+            
+            <div class="space-y-8">
                 <!-- Property Card -->
-                <div class="bg-white rounded-lg shadow-lg overflow-hidden">
-                    <img src="{{ $property->featured_image_url }}" alt="{{ $property->title }}" class="w-full h-48 object-cover">
+                <div class="group relative bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden hover:shadow-2xl transition-all duration-500">
+                    <div class="relative">
+                        <img src="{{ $property->featured_image_url }}" alt="{{ $property->title }}" class="w-full h-56 object-cover group-hover:scale-110 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    </div>
                     
                     <div class="p-6">
-                        <h3 class="text-lg font-semibold text-brand-dark mb-2">{{ $property->title }}</h3>
+                        <h3 class="text-xl font-bold text-[#2F2B40] mb-4">{{ $property->title }}</h3>
                         
-                        <div class="space-y-2 text-sm text-gray-600 mb-4">
-                            <div class="flex items-center">
-                                <i class="fas fa-map-marker-alt mr-2 text-brand-beige"></i>
-                                {{ $property->address }}, {{ $property->city->name }}
+                        <div class="space-y-3 mb-6">
+                            <div class="flex items-center bg-gray-50 p-3 rounded-xl">
+                                <div class="w-8 h-8 bg-[#CBA660]/20 rounded-lg flex items-center justify-center mr-3">
+                                    <i class="fas fa-map-marker-alt text-[#CBA660]"></i>
+                                </div>
+                                <span class="text-gray-700 font-medium">{{ $property->address }}, {{ $property->city->name }}</span>
                             </div>
                             
-                            <div class="flex items-center">
-                                <i class="fas fa-tag mr-2 text-brand-beige"></i>
-                                {{ $property->category->name }}
+                            <div class="flex items-center bg-gray-50 p-3 rounded-xl">
+                                <div class="w-8 h-8 bg-[#CBA660]/20 rounded-lg flex items-center justify-center mr-3">
+                                    <i class="fas fa-tag text-[#CBA660]"></i>
+                                </div>
+                                <span class="text-gray-700 font-medium">{{ $property->category->name }}</span>
                             </div>
                             
-                            <div class="flex items-center">
-                                <i class="fas fa-dollar-sign mr-2 text-brand-beige"></i>
-                                {{ $property->formatted_price }}
+                            <div class="flex items-center bg-gradient-to-r from-[#CBA660]/10 to-[#CBA660]/20 p-3 rounded-xl">
+                                <div class="w-8 h-8 bg-[#CBA660] rounded-lg flex items-center justify-center mr-3">
+                                    <i class="fas fa-dollar-sign text-white"></i>
+                                </div>
+                                <span class="text-[#CBA660] font-bold text-lg">{{ $property->formatted_price }}</span>
                             </div>
                         </div>
                         
-                        <div class="grid grid-cols-3 gap-2 text-center text-sm">
-                            <div class="bg-gray-50 p-2 rounded">
-                                <div class="font-semibold text-brand-dark">{{ $property->bedrooms }}</div>
-                                <div class="text-gray-600">Beds</div>
+                        <div class="grid grid-cols-3 gap-3">
+                            <div class="bg-gradient-to-br from-gray-50 to-gray-100 p-4 rounded-xl text-center">
+                                <div class="text-2xl font-bold text-[#2F2B40]">{{ $property->bedrooms }}</div>
+                                <div class="text-sm text-gray-600 font-medium">Bedrooms</div>
                             </div>
-                            <div class="bg-gray-50 p-2 rounded">
-                                <div class="font-semibold text-brand-dark">{{ $property->bathrooms }}</div>
-                                <div class="text-gray-600">Baths</div>
+                            <div class="bg-gradient-to-br from-gray-50 to-gray-100 p-4 rounded-xl text-center">
+                                <div class="text-2xl font-bold text-[#2F2B40]">{{ $property->bathrooms }}</div>
+                                <div class="text-sm text-gray-600 font-medium">Bathrooms</div>
                             </div>
-                            <div class="bg-gray-50 p-2 rounded">
-                                <div class="font-semibold text-brand-dark">{{ number_format($property->area) }}</div>
-                                <div class="text-gray-600">m²</div>
+                            <div class="bg-gradient-to-br from-gray-50 to-gray-100 p-4 rounded-xl text-center">
+                                <div class="text-2xl font-bold text-[#2F2B40]">{{ number_format($property->area) }}</div>
+                                <div class="text-sm text-gray-600 font-medium">m²</div>
                             </div>
                         </div>
                     </div>
                 </div>
 
                 <!-- Owner Info -->
-                <div class="bg-white rounded-lg shadow-lg p-6">
-                    <h3 class="text-lg font-semibold text-brand-dark mb-4">Property Owner</h3>
-                    
-                    <div class="flex items-center space-x-4 mb-4">
-                        <img src="{{ $property->owner->profile_picture_url }}" alt="{{ $property->owner->name }}" 
-                             class="w-12 h-12 rounded-full">
-                        <div>
-                            <div class="font-semibold text-brand-dark">{{ $property->owner->name }}</div>
-                            <div class="text-sm text-gray-600">Property Owner</div>
-                        </div>
+                <div class="relative bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden">
+                    <div class="bg-gradient-to-r from-[#2F2B40]/5 to-[#CBA660]/5 px-6 py-4 border-b border-gray-100">
+                        <h3 class="text-xl font-bold text-[#2F2B40]">Property Owner</h3>
                     </div>
                     
-                    <div class="text-sm text-gray-600 space-y-2">
-                        <div class="flex items-center">
-                            <i class="fas fa-envelope mr-2 text-brand-beige"></i>
-                            {{ $property->owner->email }}
+                    <div class="p-6">
+                        <div class="flex items-center space-x-4 mb-6">
+                            <div>
+                                <div class="text-lg font-bold text-[#2F2B40]">{{ $property->owner->name }}</div>
+                                <div class="text-sm text-gray-600 font-medium">Property Owner</div>
+                            </div>
                         </div>
                         
-                        @if($property->owner->phone)
-                            <div class="flex items-center">
-                                <i class="fas fa-phone mr-2 text-brand-beige"></i>
-                                {{ $property->owner->phone }}
+                        <div class="space-y-3">
+                            <div class="flex items-center bg-gray-50 p-3 rounded-xl">
+                                <div class="w-8 h-8 bg-[#CBA660]/20 rounded-lg flex items-center justify-center mr-3">
+                                    <i class="fas fa-envelope text-[#CBA660]"></i>
+                                </div>
+                                <span class="text-gray-700 font-medium">{{ $property->owner->email }}</span>
                             </div>
-                        @endif
+                            
+                            @if($property->owner->phone)
+                                <div class="flex items-center bg-gray-50 p-3 rounded-xl">
+                                    <div class="w-8 h-8 bg-[#CBA660]/20 rounded-lg flex items-center justify-center mr-3">
+                                        <i class="fas fa-phone text-[#CBA660]"></i>
+                                    </div>
+                                    <span class="text-gray-700 font-medium">{{ $property->owner->phone }}</span>
+                                </div>
+                            @endif
+                        </div>
                     </div>
                 </div>
 
-                <!-- Visit Guidelines -->
-                <div class="bg-green-50 rounded-lg p-6">
-                    <h3 class="text-lg font-semibold text-green-800 mb-3">
-                        <i class="fas fa-clipboard-list mr-2"></i>Visit Guidelines
-                    </h3>
-                    
-                    <ul class="text-sm text-green-700 space-y-2">
-                        <li class="flex items-start">
-                            <i class="fas fa-check mr-2 mt-1 text-green-600"></i>
-                            Arrive on time for your scheduled appointment
-                        </li>
-                        <li class="flex items-start">
-                            <i class="fas fa-check mr-2 mt-1 text-green-600"></i>
-                            Bring a valid ID for verification
-                        </li>
-                        <li class="flex items-start">
-                            <i class="fas fa-check mr-2 mt-1 text-green-600"></i>
-                            Prepare questions about the property
-                        </li>
-                        <li class="flex items-start">
-                            <i class="fas fa-check mr-2 mt-1 text-green-600"></i>
-                            Respect the property and owner's time
-                        </li>
-                        <li class="flex items-start">
-                            <i class="fas fa-check mr-2 mt-1 text-green-600"></i>
-                            Contact owner if you need to reschedule
-                        </li>
-                    </ul>
-                </div>
+                
 
-                <!-- Process Steps -->
-                <div class="bg-blue-50 rounded-lg p-6">
-                    <h3 class="text-lg font-semibold text-blue-800 mb-3">
-                        <i class="fas fa-route mr-2"></i>Next Steps
-                    </h3>
+                {{-- Process Steps --}}
+                <div class="relative bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden">
+                    <div class="bg-[#CBA660]/20 px-6 py-4">
+                        <h3 class="text-xl font-bold text-[#CBA660] flex items-center">
+                            <i class="fas fa-route mr-3"></i>Next Steps
+                        </h3>
+                    </div>
                     
-                    <div class="space-y-3 text-sm">
-                        <div class="flex items-center text-green-700">
-                            <i class="fas fa-check-circle mr-2"></i>
-                            <span>✓ Step 1: Contact Owner - Completed</span>
-                        </div>
-                        <div class="flex items-center text-blue-700 font-semibold">
-                            <i class="fas fa-clock mr-2"></i>
-                            <span>→ Step 2: Schedule Visit - In Progress</span>
-                        </div>
-                        <div class="flex items-center text-gray-500">
-                            <i class="fas fa-circle mr-2"></i>
-                            <span>Step 3: Complete Payment - Pending</span>
+                    <div class="p-6">
+                        <div class="space-y-4">
+                            <div class="flex items-center p-4">
+                                
+                                <span class="text-[#CBA660] font-bold">✓ Step 1: Contact Owner - Completed</span>
+                            </div>
+                            <div class="flex items-center  p-4">
+                                
+                                <span class="text-[#2F2B40] font-bold">→ Step 2: Schedule Visit - In Progress</span>
+                            </div>
+                            <div class="flex items-center p-4">
+                                
+                                <span class="text-[#2F2B40] font-bold">→ Step 3: Continue with Owner</span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -255,6 +255,9 @@ document.addEventListener('DOMContentLoaded', function() {
         dayMaxEvents: true,
         weekends: true,
         
+        // Modern styling
+        themeSystem: 'bootstrap5',
+        
         // Disable past dates
         validRange: {
             start: new Date().toISOString().split('T')[0]
@@ -278,6 +281,7 @@ document.addEventListener('DOMContentLoaded', function() {
             // Highlight today
             if (info.date.toDateString() === new Date().toDateString()) {
                 info.el.style.backgroundColor = '#fef3c7';
+                info.el.style.borderRadius = '8px';
             }
         }
     });
@@ -300,24 +304,29 @@ document.addEventListener('DOMContentLoaded', function() {
                         onclick="selectTimeSlot('${datetime}')" 
                         class="time-slot ${isBooked ? 'booked' : 'available'}"
                         ${isBooked ? 'disabled' : ''}>
-                    ${time}
-                    ${isBooked ? '<span class="text-xs block">(Booked)</span>' : ''}
+                    <div class="text-lg font-bold">${time}</div>
+                    ${isBooked ? '<div class="text-xs text-[#2F2B40] font-medium">Booked</div>' : '<div class="text-xs text-[#CBA660] font-medium">Available</div>'}
                 </button>
             `;
         }).join('');
 
         const modal = document.createElement('div');
-        modal.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50';
+        modal.className = 'fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4';
         modal.innerHTML = `
-            <div class="bg-white rounded-lg p-6 max-w-md w-full mx-4">
-                <h3 class="text-lg font-semibold mb-4">Select Time for ${new Date(dateStr).toLocaleDateString()}</h3>
-                <div class="grid grid-cols-2 gap-3 mb-4">
-                    ${slotsHtml}
+            <div class="bg-white rounded-2xl shadow-2xl max-w-lg w-full overflow-hidden">
+                <div class="bg-gradient-to-r from-[#2F2B40] to-[#CBA660] p-6 text-white">
+                    <h3 class="text-2xl font-bold mb-2">Select Time</h3>
+                    <p class="text-white/80">${new Date(dateStr).toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</p>
                 </div>
-                <button onclick="this.closest('.fixed').remove()" 
-                        class="w-full bg-gray-300 text-gray-700 py-2 rounded hover:bg-gray-400">
-                    Cancel
-                </button>
+                <div class="p-6">
+                    <div class="grid grid-cols-2 gap-4 mb-6">
+                        ${slotsHtml}
+                    </div>
+                    <button onclick="this.closest('.fixed').remove()" 
+                            class="w-full bg-gray-200 text-gray-700 py-3 rounded-xl hover:bg-gray-300 transition-colors font-medium">
+                        <i class="fas fa-times mr-2"></i>Cancel
+                    </button>
+                </div>
             </div>
         `;
         
@@ -350,23 +359,46 @@ document.addEventListener('DOMContentLoaded', function() {
 
 <style>
 .time-slot {
-    @apply px-4 py-3 rounded-lg border text-sm font-medium transition-colors;
+    @apply px-4 py-4 rounded-xl border-2 text-sm font-medium transition-all duration-300 transform hover:scale-105;
 }
 
 .time-slot.available {
-    @apply border-green-300 text-green-700 bg-green-50 hover:bg-green-100;
+    @apply border-green-300 text-green-700 bg-gradient-to-br from-green-50 to-green-100 hover:bg-green-200 hover:shadow-lg;
 }
 
 .time-slot.booked {
-    @apply border-red-300 text-red-700 bg-red-50 cursor-not-allowed opacity-60;
+    @apply border-red-300 text-red-700 bg-gradient-to-br from-red-50 to-red-100 cursor-not-allowed opacity-60;
+}
+
+/* Calendar customization */
+.fc {
+    font-family: inherit;
 }
 
 .fc-event {
     font-size: 12px !important;
+    border-radius: 8px !important;
+    border: none !important;
+    padding: 2px 4px !important;
 }
 
 .fc-daygrid-event {
-    margin: 1px !important;
+    margin: 2px !important;
+}
+
+.fc-button-primary {
+    background-color: #CBA660 !important;
+    border-color: #CBA660 !important;
+}
+
+.fc-button-primary:hover {
+    background-color: #b8954d !important;
+    border-color: #b8954d !important;
+}
+
+.fc-today-button {
+    background-color: #2F2B40 !important;
+    border-color: #2F2B40 !important;
 }
 </style>
 @endsection
